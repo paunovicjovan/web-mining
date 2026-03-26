@@ -1,0 +1,9 @@
+datasets
+langextract
+sentence-transformers
+scikit-learn
+python-dotenv
+fastapi
+uvicorn
+google-generativeai
+pydantic
