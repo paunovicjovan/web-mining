@@ -34,7 +34,7 @@ phone-reviews/
 
 ## Tech Stack
 
--   **Data Source**: [Amazon-Reviews-Unlocked-Mobile-Phones](https://www.kaggle.com/datasets/PromptCloudHQ/amazon-reviews-unlocked-mobile-phones?select=Amazon_Unlocked_Mobile.csv)
+-   **Data Source**: [Amazon-Reviews-Unlocked-Mobile-Phones](https://www.kaggle.com/datasets/PromptCloudHQ/amazon-reviews-unlocked-mobile-phones)
 -   **Extraction**: `langextract`
 -   **Embeddings**: `sentence-transformers`
 -   **Clustering**: `scikit-learn`
