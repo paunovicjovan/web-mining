@@ -109,5 +109,6 @@ dmypy.json
 data/*.csv
 data/*.json
 data/*.parquet
+data/*.db
 
 docs
