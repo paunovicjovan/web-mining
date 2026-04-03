@@ -1,29 +1,22 @@
 import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
-from src.data.loader import run_offline_preprocessing
 
 # Load environment variables
 load_dotenv()
 
-def initialize_data():
-    """Ensure the cleaned dataset exists before starting the app."""
-    raw_csv = "data/Amazon_Unlocked_Mobile.csv"
-    cleaned_csv = "data/cleaned_reviews.csv"
-    
-    if not os.path.exists(cleaned_csv):
-        print("Cleaned dataset not found. Starting offline preprocessing...")
-        if os.path.exists(raw_csv):
-            run_offline_preprocessing(raw_csv, cleaned_csv)
-        else:
-            print(f"CRITICAL ERROR: Raw dataset {raw_csv} not found!")
-            return False
+def check_db_ready():
+    """Ensure the database exists before starting the app."""
+    db_path = os.path.join("data", "reviews.db")
+    if os.path.exists(db_path):
+        print(f"Database found at {db_path}.")
+        return True
     else:
-        print("Cleaned dataset already exists. Skipping preprocessing.")
-    return True
+        print(f"CRITICAL ERROR: Database {db_path} not found!")
+        return False
 
-# Initialize data
-data_ready = initialize_data()
+# Check data readiness
+data_ready = check_db_ready()
 
 app = FastAPI(title="Phone Review Analysis API")
 
@@ -36,12 +29,12 @@ async def root():
 
 @app.get("/status")
 async def get_status():
-    return {"status": "online" if data_ready else "error_no_data"}
+    return {"status": "online" if data_ready else "error_no_db"}
 
 if __name__ == "__main__":
     import uvicorn
-    # If we are running this as a script, we might want to ensure data is ready
+    # Start the app if data is ready
     if data_ready:
         uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
     else:
-        print("Application could not start due to missing data.")
+        print("Application could not start due to missing database.")
