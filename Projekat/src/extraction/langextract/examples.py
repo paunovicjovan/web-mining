@@ -20,16 +20,16 @@ EXTRACTION_EXAMPLES = [
         ]
     ),
     lx.data.ExampleData(
-        text='Terrible speaker quality and very expensive for what it offers.',
+        text='Terrible speaker quality and the price is very high for what it offers.',
         extractions=[
             lx.data.Extraction(extraction_class='aspect', extraction_text='speaker quality',
                                attributes={'sentiment': 'negative'}),
-            lx.data.Extraction(extraction_class='aspect', extraction_text='expensive',
+            lx.data.Extraction(extraction_class='aspect', extraction_text='price',
                                attributes={'sentiment': 'negative'}),
         ]
     ),
     lx.data.ExampleData(
-        text='The build quality is solid and it feels premium in the hand.',
+        text='The build quality is solid, much better than my old Samsung or the iPhone I used to have.',
         extractions=[
             lx.data.Extraction(extraction_class='aspect', extraction_text='build quality',
                                attributes={'sentiment': 'positive'}),
