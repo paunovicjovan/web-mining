@@ -19,7 +19,7 @@ class Clusterer:
         else:
             self.embedder = embedder
 
-    def _find_dominant_word(self, mentions: list[str], min_coverage: float = 0.4) -> str | None:
+    def _find_dominant_word(self, mentions: list[str], min_coverage: float = 0.5) -> str | None:
         """
         If a single non-stopword appears in >= min_coverage of all mentions,
         return it as the cluster name. Otherwise return None.
