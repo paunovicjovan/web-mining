@@ -99,6 +99,11 @@ class Clusterer:
         embeddings_map = {a: e for a, e in zip(unique_aspects, unique_embeddings)}
 
         # 3. Perform Clustering using Agglomerative Clustering with cosine distance
+        if len(embeddings) < 2:
+            # AgglomerativeClustering requires at least 2 samples.
+            # With 0 or 1 samples, we can't form meaningful clusters anyway.
+            return []
+
         clustering = AgglomerativeClustering(
             n_clusters=None,
             distance_threshold=threshold,
