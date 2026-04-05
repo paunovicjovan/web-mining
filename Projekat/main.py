@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.analysis.embedder import Embedder
 from src.analysis.clusterer import Clusterer
 from src.api.routes import router
+from src.cache.db import init_cache_db
 
 load_dotenv()
 
@@ -14,6 +15,10 @@ load_dotenv()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Load heavy resources once at startup, share them across all requests."""
+    # Ensure cache database exists
+    print("Initializing cache database...")
+    init_cache_db()
+    
     db_path = os.path.join("data", "reviews.db")
     if not os.path.exists(db_path):
         print(f"CRITICAL ERROR: Database {db_path} not found!")
