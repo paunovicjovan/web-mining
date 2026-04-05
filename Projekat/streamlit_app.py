@@ -28,21 +28,20 @@ st.markdown("""
     .main {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         color: #f1f5f9;
-        padding: 2rem;
+        padding: 0.5rem 2rem;
+    }
+
+    .block-container {
+        padding-top: 1rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    header {
+        visibility: visible;
     }
 
     .stApp {
         background: transparent;
-    }
-
-    /* Glassmorphism card for search */
-    .search-container {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        padding: 2rem;
-        margin-bottom: 2rem;
     }
 
     h1 {
@@ -147,8 +146,6 @@ st.markdown("<p class='subtitle'>Analyze customer sentiment and extracted aspect
 
 # User Selection Container
 with st.container():
-    st.markdown('<div class="search-container">', unsafe_allow_html=True)
-    
     col1, col2 = st.columns(2)
     
     brands = get_brands()
@@ -174,7 +171,6 @@ with st.container():
         )
     
     analyze_btn = st.button("Generate Insights")
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # --- RESULTS AREA ---
 if analyze_btn:
@@ -228,10 +224,3 @@ if analyze_btn:
                         """, unsafe_allow_html=True)
             else:
                 st.info("Results will appear here after analysis.")
-
-# --- FOOTER ---
-st.markdown("""
-<div style="text-align: center; color: #64748b; font-size: 0.8rem; margin-top: 4rem;">
-    Built with Streamlit & FastAPI | Powered by Sentence-Transformers
-</div>
-""", unsafe_allow_html=True)
