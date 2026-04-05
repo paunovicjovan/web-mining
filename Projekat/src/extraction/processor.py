@@ -8,10 +8,13 @@ from dotenv import load_dotenv
 # Load API key from .env if present
 load_dotenv()
 
-def extract_review_aspects(review_text: str, model_id: str = "gemini-2.5-flash") -> list[tuple[str, str]]:
+def extract_review_aspects(review_text: str, model_id: str = None) -> list[tuple[str, str]]:
     """
     Extract (aspect, sentiment) pairs from a single review text.
     """
+    if model_id is None:
+        model_id = os.getenv("LANGEXTRACT_MODEL_ID", "gemini-1.5-flash")
+    
     try:
         result = lx.extract(
             text_or_documents=review_text,
@@ -32,10 +35,13 @@ def extract_review_aspects(review_text: str, model_id: str = "gemini-2.5-flash")
         print(f"Error extracting from review: {e}")
         return []
 
-def extract_aspects_parallel(reviews: list[str], max_workers: int = 20, model_id: str = "gemini-2.5-flash") -> list[tuple[str, str]]:
+def extract_aspects_parallel(reviews: list[str], max_workers: int = 20, model_id: str = None) -> list[tuple[str, str]]:
     """
     Process an array of reviews in parallel and return a combined list of (aspect, sentiment) pairs.
     """
+    if model_id is None:
+        model_id = os.getenv("LANGEXTRACT_MODEL_ID", "gemini-1.5-flash")
+    
     all_pairs = []
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:

@@ -48,6 +48,11 @@ class Clusterer:
         2. Otherwise prefer the most frequent full phrase.
         3. Tie-break using cosine similarity to cluster centroid.
         """
+        # Edge case: only one unique term → keep the full phrase as-is
+        unique_terms = set(mentions)
+        if len(unique_terms) == 1:
+            return next(iter(unique_terms))
+
         # Strategy 1: dominant shared word
         dominant = self._find_dominant_word(mentions)
         if dominant:
