@@ -110,6 +110,7 @@ data/*.csv
 data/*.json
 data/*.parquet
 data/*.db
+data/*.db-journal
 
 docs
 tmp

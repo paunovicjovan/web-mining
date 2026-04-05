@@ -9,3 +9,5 @@ google-generativeai
 pydantic
 pandas
 nltk
+streamlit
+requests
