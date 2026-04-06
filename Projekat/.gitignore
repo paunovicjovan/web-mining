@@ -106,11 +106,7 @@ venv.bak/
 dmypy.json
 
 # Data
-data/*.csv
-data/*.json
-data/*.parquet
-data/*.db
-data/*.db-journal
+data
 
 docs
 tmp

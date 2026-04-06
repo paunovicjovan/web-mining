@@ -1,9 +1,12 @@
 import sqlite3
 import os
 import json
+from dotenv import load_dotenv
+
+load_dotenv()
 from datetime import datetime, timedelta
 
-CACHE_DB_PATH = os.path.join("data", "cache.db")
+CACHE_DB_PATH = os.getenv("CACHE_DB_PATH", os.path.join("data", "db", "cache.db"))
 
 def get_connection():
     """Get a connection to the cache database."""

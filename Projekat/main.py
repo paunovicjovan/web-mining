@@ -19,7 +19,8 @@ async def lifespan(app: FastAPI):
     print("Initializing cache database...")
     init_cache_db()
     
-    db_path = os.path.join("data", "reviews.db")
+    db_path = os.getenv("REVIEWS_DB_PATH", os.path.join("data", "db", "reviews.db"))
+
     if not os.path.exists(db_path):
         print(f"CRITICAL ERROR: Database {db_path} not found!")
         raise RuntimeError("reviews.db not found")

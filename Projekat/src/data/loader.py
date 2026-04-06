@@ -1,7 +1,10 @@
 import sqlite3
 import pandas as pd
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
+db_path = os.getenv("REVIEWS_DB_PATH", os.path.join("data", "db", "reviews.db"))
 
 def truncate_review(text: str, max_words: int = 500) -> str:
     """Truncate a review to a maximum number of words."""
@@ -25,7 +28,6 @@ def get_top_reviews(brand: str, model: str, top_n: int = 50) -> pd.DataFrame:
     Returns:
         pd.DataFrame: A DataFrame containing the matching reviews.
     """
-    db_path = os.path.join("data", "reviews.db")
 
     if not os.path.exists(db_path):
         print(f"Error: Database {db_path} not found.")
@@ -57,7 +59,6 @@ def get_top_reviews(brand: str, model: str, top_n: int = 50) -> pd.DataFrame:
 
 def get_all_brands() -> list[str]:
     """Return a sorted list of all distinct brands in the database."""
-    db_path = os.path.join("data", "reviews.db")
     if not os.path.exists(db_path):
         return []
     try:
@@ -74,7 +75,6 @@ def get_all_brands() -> list[str]:
 
 def get_models_for_brand(brand: str) -> list[str]:
     """Return a sorted list of all distinct models for a given brand."""
-    db_path = os.path.join("data", "reviews.db")
     if not os.path.exists(db_path):
         return []
     try:

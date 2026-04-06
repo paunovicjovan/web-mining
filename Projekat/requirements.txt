@@ -11,3 +11,4 @@ pandas
 nltk
 streamlit
 requests
+rapidfuzz
