@@ -85,7 +85,7 @@ st.markdown("""
     }
 
     .cluster-title {
-        color: #f1f5f9;
+        color: var(--text-color);
         font-weight: 600;
         font-size: 1.2rem;
         margin-bottom: 0.5rem;

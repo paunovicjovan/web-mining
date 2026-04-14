@@ -1,4 +1,5 @@
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.metrics import silhouette_score
 from collections import Counter
 import numpy as np
 import nltk
@@ -80,6 +81,41 @@ class Clusterer:
 
         return best_name
 
+    def _select_optimal_threshold(self, embeddings: np.ndarray, default_threshold: float) -> float:
+        """
+        Select the distance threshold that maximizes Silhouette score.
+        Falls back to default_threshold when no valid candidate is found.
+        """
+        n_samples = len(embeddings)
+        if n_samples < 3:
+            # Silhouette score is not meaningful for extremely small samples.
+            return default_threshold
+
+        candidate_thresholds = np.arange(0.5, 0.601, 0.05)
+        best_threshold = default_threshold
+        best_score = -1.0
+
+        for candidate in candidate_thresholds:
+            clustering = AgglomerativeClustering(
+                n_clusters=None,
+                distance_threshold=float(candidate),
+                metric='cosine',
+                linkage='average'
+            )
+            labels = clustering.fit_predict(embeddings)
+            n_clusters = len(set(labels))
+
+            # Skip invalid silhouette cases: single cluster or each sample isolated.
+            if n_clusters <= 1 or n_clusters >= n_samples:
+                continue
+
+            score = silhouette_score(embeddings, labels, metric='cosine')
+            if score > best_score:
+                best_score = score
+                best_threshold = float(candidate)
+
+        return best_threshold
+
     def cluster_aspects(self, aspect_sentiment_pairs: list[tuple[str, str]], threshold: float = 0.5) -> list[dict]:
         """
         Takes raw extraction pairs and returns a list of consolidated "Aspect Objects".
@@ -104,9 +140,11 @@ class Clusterer:
             # With 0 or 1 samples, we can't form meaningful clusters anyway.
             return []
 
+        optimal_threshold = self._select_optimal_threshold(embeddings, threshold)
+
         clustering = AgglomerativeClustering(
             n_clusters=None,
-            distance_threshold=threshold,
+            distance_threshold=optimal_threshold,
             metric='cosine',
             linkage='average'
         )
