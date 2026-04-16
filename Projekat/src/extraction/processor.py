@@ -13,7 +13,7 @@ def extract_review_aspects(review_text: str, model_id: str = None) -> list[tuple
     Extract (aspect, sentiment) pairs from a single review text.
     """
     if model_id is None:
-        model_id = os.getenv("LANGEXTRACT_MODEL_ID", "gemini-1.5-flash")
+        model_id = os.getenv("LANGEXTRACT_MODEL_ID", "gemini-2.5-flash")
     
     try:
         result = lx.extract(
@@ -40,7 +40,7 @@ def extract_aspects_parallel(reviews: list[str], max_workers: int = 20, model_id
     Process an array of reviews in parallel and return a combined list of (aspect, sentiment) pairs.
     """
     if model_id is None:
-        model_id = os.getenv("LANGEXTRACT_MODEL_ID", "gemini-1.5-flash")
+        model_id = os.getenv("LANGEXTRACT_MODEL_ID", "gemini-2.5-flash")
     
     all_pairs = []
     
